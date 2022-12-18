@@ -7,22 +7,23 @@ import { useState } from "react";
 
 type Props = {
   text: string;
+  checked?: boolean;
   onRemove: () => void;
+  onCheck?: () => void;
 }
 
-export function Task({ text, onRemove }: Props) {
+export function Task({ text, onRemove, onCheck }: Props) {
   const [isChecked, setIsChecked] = useState(false)
   const checkIcon = isChecked ? {name: "check-circle", color: "#5E60CE"} : {name: "circle", color: "#4EA8DE"}
 
   function handleCheck() {
-    console.log('checked task!');
     setIsChecked(!isChecked)
   }
 
   return (
     <View style={styles.container}>
       
-      <Pressable onPress={handleCheck}>
+      <Pressable onPress={handleCheck} onPressIn={onCheck}>
         <Icon style={styles.check} name={checkIcon.name} size={24} color={checkIcon.color}  />
       </Pressable>
       <Text style={[styles.text, isChecked && {'textDecorationLine': 'line-through', 'color': '#808080'}]}>

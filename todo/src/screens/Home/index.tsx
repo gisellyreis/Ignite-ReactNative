@@ -3,27 +3,72 @@ import { AntDesign } from '@expo/vector-icons';
 
 import { styles } from "./styles";
 import { Task } from "../../components/Task";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+type Task = {
+  id: number;
+  text: string;
+  done: boolean;
+}
 
 export function Home() {
 
   const [isFocused, setIsFocused] = useState(false);
-  const [tasks, setTasks] = useState<string[]>([])
+  const [tasks, setTasks] = useState<Task[]>([])
   const [taskText, setTaskText] = useState('')
   const [created, setCreated] = useState(0)
+  const [done, setDone] = useState(0)
+
+  useEffect(() => {
+    const data = require('../../../public/data.json')
+    setTasks(data.data)
+
+    setCreated(data.data.length)
+  }, [])
 
   function handleToDoAdd() {
     let count = tasks.length + 1;
-    setTasks(prevState => [...prevState, taskText])
+
+    const newTask = {
+      id: created + 1,
+      text: taskText,
+      done: false
+    }
+    setTasks(prevState => [...prevState, newTask])
     setTaskText('')
 
     setCreated(count)
   }
 
-  function handleTaskRemove(text: string) {
-    let count = tasks.length - 1;
-    setTasks(prevState => prevState.filter(task => task !== text))
-    setCreated(count)
+  function handleCheck(id: number) {
+    tasks.map(task => {
+      if(task.id == id && !task.done){
+        let count = done + 1;
+        task.done = true
+        setDone(count)
+      }
+      else if(task.id == id && task.done) {
+        let count = done - 1;
+        task.done = false
+        setDone(count)
+      }
+    })  
+    
+  }
+
+  
+  function handleTaskRemove(id: number) {
+    let countCreate = tasks.length - 1;
+
+    tasks.map(task => {
+      if(task.id == id && task.done){
+        let countDone = done - 1;
+        setDone(countDone)
+      }
+    }) 
+
+    setTasks(prevState => prevState.filter(task => task.id !== id))
+    setCreated(countCreate)
   }
 
 
@@ -70,19 +115,19 @@ export function Home() {
             Concluídas
           </Text>
           <View style={styles.counter}>
-            <Text style={styles.counterText}>0</Text>
+            <Text style={styles.counterText}> {done} </Text>
           </View>
         </View>
       </View>
 
       <FlatList 
         data={tasks}
-        keyExtractor={item => item}
         renderItem={({ item }) => (
           <Task 
-              key={item}
-              text={item} 
-              onRemove={() => handleTaskRemove(item)} 
+              key={item.id}
+              text={item.text} 
+              onRemove={() => handleTaskRemove(item.id)} 
+              onCheck={() => handleCheck(item.id)}
           />
         )}
         ListEmptyComponent={() => (

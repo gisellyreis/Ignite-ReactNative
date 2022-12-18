@@ -1,0 +1,23 @@
+{
+  "data": [{
+    "id": 1,
+    "text": "Adicionar uma nova tarefa",
+    "done": false
+  },
+  {
+    "id": 2,
+    "text": "Marcar e desmarcar uma tarefa como concluída",
+    "done": false
+  },
+  {
+    "id": 3,
+    "text": "Remover uma tarefa da listagem",
+    "done": false
+  },
+  {
+    "id": 4,
+    "text": "Mostrar o progresso de conclusão das tarefas",
+    "done": false
+  }
+  ]
+}
