@@ -27,9 +27,7 @@ Apesar de poucas funcionalidades, nesse projeto estudamos os conceitos de:
 ### 🌼 Layout da aplicação
 
 
-<img src="./public/Todo-Empty.png" width="200" /> 
-<img src="./public/Todo-Description.png" width="200" />  
-<img src="./public/Todo-List.png" width="200" />  
+<img src="./public/Todo-Empty.png" width="200" /> <img src="./public/Todo-Description.png" width="200" />  <img src="./public/Todo-List.png" width="200" />  
 
 
 ### 🔨 Ferramentas
