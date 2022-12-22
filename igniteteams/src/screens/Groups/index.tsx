@@ -1,8 +1,9 @@
 import { 
   Container 
-} from './styles';
+} from './styles'
 
 export function Groups() {
+
   return (
     <Container>
 
