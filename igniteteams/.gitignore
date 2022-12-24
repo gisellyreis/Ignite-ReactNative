@@ -10,5 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 
+src/screens/Players/
+
 # macOS
 .DS_Store
