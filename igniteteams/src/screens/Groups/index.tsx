@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { GroupCard } from '@components/GroupCard';
 import { Header } from '@components/Header'
-import { Highlight } from '@components/Highlight.tsx';
+import { Highlight } from '@components/Highlight';
 import { 
   Container 
 } from './styles'
