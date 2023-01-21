@@ -3,7 +3,7 @@ import { Group } from "@components/Group";
 import { HomeHeader } from "@components/HomeHeader";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "@routes/app.routes";
-import { Center, FlatList, Heading, HStack, Text, VStack } from "native-base";
+import { FlatList, Heading, HStack, Text, VStack } from "native-base";
 import { useState } from "react";
 
 export function Home() {
@@ -13,7 +13,7 @@ export function Home() {
 
     const navigation = useNavigation<AppNavigatorRoutesProps>()
 
-    function handleOpenExerciseDetails() {
+    function handleOpenExerciseDetails() {        
         navigation.navigate('exercise')
     }
 
