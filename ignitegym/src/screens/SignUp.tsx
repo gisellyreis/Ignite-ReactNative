@@ -1,17 +1,23 @@
 import { VStack, Image, Text, Center, Heading, ScrollView } from 'native-base'
+import { useNavigation } from '@react-navigation/native'
+import { useState } from 'react'
+import { useForm, Controller } from 'react-hook-form'
 
 import BackgroundImg from '@assets/background.png'
 import LogoSvg from '@assets/logo.svg'
 import { Input } from '@components/Input'
 import { Button } from '@components/Button'
-import { useNavigation } from '@react-navigation/native'
-import { useState } from 'react'
+
+type FormDataProps = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+}
 
 export function SignUp() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>()
 
   const navigation = useNavigation()
 
@@ -19,13 +25,8 @@ export function SignUp() {
     navigation.goBack()
   }
 
-  function handleSignUp() {
-    console.log({
-      name,
-      email,
-      password,
-      passwordConfirm
-    });
+  function handleSignUp({ name, email, password, password_confirm }: FormDataProps) {
+    
   }
 
   return (
@@ -54,29 +55,72 @@ export function SignUp() {
             Crie sua conta
           </Heading>
 
-          <Input 
-            placeholder='Nome' 
-            onChangeText={setName}
+          <Controller
+            control={control}
+            name="name"
+            rules={{
+              required: "Informe o nome."
+            }}
+            render={({ field: { onChange, value } }) => (
+              <Input 
+                placeholder='Nome' 
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
           />
-          <Input 
-            placeholder='E-mail' 
-            key='email-address'
-            autoCapitalize='none'
-            onChangeText={setEmail}
+          <Text color="white">{errors.name?.message}</Text>
+
+          <Controller
+            control={control}
+            name="email"
+            rules={{
+              required: "Informe o email.",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "E-mail inválido"
+              }
+            }}
+            render={({ field: { onChange, value } }) => (
+              <Input 
+                placeholder='E-mail' 
+                key='email-address'
+                autoCapitalize='none'
+                onChangeText={onChange}
+                value={value}
+              />
+            )}
           />
-          <Input 
-            placeholder='Senha' 
-            secureTextEntry
-            onChangeText={setPasswordConfirm}
+          <Text color="white">{errors.email?.message}</Text>
+          
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, value } }) => (
+              <Input 
+                placeholder='Senha' 
+                secureTextEntry
+                onChangeText={onChange}
+                  value={value}
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name="password_confirm"
+            render={({ field: { onChange, value } }) => (
+              <Input 
+                placeholder="Confirmar a Senha" 
+                secureTextEntry
+                onChangeText={onChange}
+                value={value}
+                onSubmitEditing={handleSubmit(handleSignUp)}
+                returnKeyType="send"
+              />
+            )}
           />
 
-          <Input 
-            placeholder="Confirmar a Senha" 
-            secureTextEntry
-            onChangeText={setPasswordConfirm}
-          />
-
-          <Button title='Criar e acessar' onPress={handleSignUp} />
+          <Button title='Criar e acessar' onPress={handleSubmit(handleSignUp)} />
         </Center>
 
         <Button 
