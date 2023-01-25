@@ -78,7 +78,7 @@ export function Profile() {
                     <Input bg="gray.600" placeholder="Nome" />
                     <Input bg="gray.600" placeholder="E-mail" isDisabled />
 
-                    <Heading color="gray.200" fontSize="md" mb={2} mt={12} alignSelf="flex-start">
+                    <Heading color="gray.200" fontSize="md" fontFamily="heading" mb={2} mt={12} alignSelf="flex-start">
                         Alterar senha
                     </Heading>
 
