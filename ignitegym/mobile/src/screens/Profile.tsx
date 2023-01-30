@@ -12,6 +12,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import * as yup from 'yup';
+import { AppError } from "@utils/AppError";
+import { api } from "@services/api";
 
 const PHOTO_SIZE = 33;
 
@@ -42,11 +44,12 @@ type FormDataProps = {
   })
 
 export function Profile() {
+    const [isUpdating, setIsUpdating] = useState(false)
     const [photoIsLoading, setPhotoIsLoading] = useState(false)
     const [userPhoto, setUserPhoto] = useState('https://img2.gratispng.com/20180402/ojw/kisspng-united-states-avatar-organization-information-user-avatar-5ac20804a62b58.8673620215226654766806.jpg')
 
     const toast = useToast()
-    const { user } = useAuth()
+    const { user, updateUserProfile } = useAuth()
     const { control, handleSubmit, formState: {errors} } = useForm<FormDataProps>({
         defaultValues: {
             name: user.name,
@@ -91,7 +94,32 @@ export function Profile() {
     }
 
     async function handleProfileUpdate(data: FormDataProps) {
+        try {
+            setIsUpdating(true)
 
+            const userUpdated = user
+            userUpdated.name = data.name
+
+            await api.put('/users', data)
+            await updateUserProfile(userUpdated)
+
+            toast.show({
+                title: 'Perfil atualizado com sucesso!',
+                placement: 'top',
+                bgColor: 'green.500'
+            })
+        } catch (error) {
+            const isAppError = error instanceof AppError
+            const title = isAppError ? error.message : 'Não foi possível atualizar os dados. Tente novamente mais tarde.'
+
+            toast.show({
+                title,
+                placement: 'top',
+                bgColor: 'red.500'
+            })
+        } finally {
+            setIsUpdating(false)
+        }
     }
 
     return (
@@ -188,7 +216,12 @@ export function Profile() {
                         )}
                     />
 
-                    <Button title="Atualizar" mt={4} onPress={handleSubmit(handleProfileUpdate)} />
+                    <Button 
+                        title="Atualizar" 
+                        mt={4} 
+                        onPress={handleSubmit(handleProfileUpdate)} 
+                        isLoading={isUpdating}
+                    />
                 </Center>
 
             </ScrollView>
