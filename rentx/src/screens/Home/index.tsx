@@ -4,8 +4,19 @@ import { Container, Header, HeaderContent, TotalCars } from './styles';
 import { RFValue } from 'react-native-responsive-fontsize'
 
 import Logo from '../../assets/logo.svg'
+import { Car } from '../../components/Car';
 
 export function Home() {
+  const cardata = {
+    brand: 'audi',
+    name: 'RS 5 Coupé',
+    rent: {
+        period: 'Ao dia',
+        price: 120,
+    },
+    thumbnail: 'https://e7.pngegg.com/pngimages/183/675/png-clipart-audi-audi.png',
+  }
+
   return (
     <Container>
       <StatusBar
@@ -24,6 +35,8 @@ export function Home() {
           </TotalCars>
         </HeaderContent>
       </Header>
+
+      <Car data={cardata}/>
     </Container>
   );
 }
