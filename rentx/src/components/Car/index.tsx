@@ -43,7 +43,6 @@ export function Car({data}: Props) {
                     </Rent>
 
                     <Type>
-                        <GasolineSvg />
                     </Type>
                 </About>
             </Details>
