@@ -4,6 +4,9 @@ import { Archivo_400Regular, Archivo_500Medium, Archivo_600SemiBold } from '@exp
 import AppLoading from "expo-app-loading";
 import { ThemeProvider } from "styled-components";
 import theme from "./src/styles/theme";
+import { Text } from "react-native";
+import { CarDetails } from "./src/screens/CarDetails";
+import { Scheduling } from "./src/screens/Scheduling";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,7 +20,8 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme} >
-      <Home />
+     {/* <Home /> */}
+     <Scheduling />
     </ThemeProvider>
   )   
 }
